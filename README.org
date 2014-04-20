@@ -7,9 +7,8 @@
   [[http://www.freertos.org/][FreeRTOS]] 8.0.0 porting on [[http://www.st.com/web/catalog/tools/FM116/SC959/SS1532/PF259090][32F429IDISCOVERY]] board using GCC on linux.
 
   Building the projects requires an arm-none-eabi- toolchain with Cortex-M4F support. The known working toolchains are:
-
-  - Sourcery CodeBench
-  - GNU
+  - [[http://www.mentor.com/embedded-software/sourcery-tools/sourcery-codebench/editions/lite-edition/][Sourcery CodeBench]]
+  - [[https://launchpad.net/gcc-arm-embedded][GNU Tools for ARM Embedded Processors]]
 
 * Get FreeRTOS and STM32F429 Discovery Firmware Ready
   Download and decompress the [[http://sourceforge.net/projects/freertos/postdownloadsource%3Ddlp][FreeRTOS V8.0.0]] from sourceforge.
@@ -42,7 +41,7 @@
        make clean
        make led-test
      #+END_EXAMPLE
-     No task will be created. An infinite loop to toggle LEDs that never breaks. Try this is a hardware issue or so.
+     No task will be created. An infinite loop to toggle LEDs that never breaks. Try this if there is a hardware issue or so.
 
   2. Simple LED flasher example (default)
      #+BEGIN_EXAMPLE
