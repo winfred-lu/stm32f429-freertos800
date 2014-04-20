@@ -576,7 +576,6 @@ static void prvOptionallyCreateComprehensveTestApplication( void )
 		file */
 		xTaskCreate( vRegTest1Task, "Reg1", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL );
 		xTaskCreate( vRegTest2Task, "Reg2", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL );
-		//xTaskCreate( vLEDFlashTask, "LEDx", ledSTACK_SIZE, NULL, uxPriority, ( TaskHandle_t * ) NULL );
 
 		/* Create the semaphore that is used to demonstrate a task being
 		synchronised with an interrupt. */

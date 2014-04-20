@@ -106,12 +106,19 @@ COMPLEX_LED_OBJS += \
     $(RTOS)/FreeRTOS/Demo/Common/Minimal/semtest.o \
     $(RTOS)/FreeRTOS/Demo/Common/Minimal/recmutex.o
 
+led-test: $(SIMPLE_LED_OBJS)
+led-test: CFLAGS += -DLED_TESTING
+led-test: CFLAGS += -DmainCREATE_SIMPLE_LED_FLASHER_DEMO_ONLY=1
+led-test: OBJS = $(SIMPLE_LED_OBJS)
+led-test: $(BIN_IMAGE)
+
 simple-led: $(SIMPLE_LED_OBJS)
 simple-led: CFLAGS += -DmainCREATE_SIMPLE_LED_FLASHER_DEMO_ONLY=1
 simple-led: OBJS = $(SIMPLE_LED_OBJS)
 simple-led: $(BIN_IMAGE)
 
 complex-led: $(SIMPLE_LED_OBJS)
+complex-led: $(COMPLEX_LED_OBJS)
 complex-led: CFLAGS += -DmainCREATE_SIMPLE_LED_FLASHER_DEMO_ONLY=0
 complex-led: OBJS = $(SIMPLE_LED_OBJS) $(COMPLEX_LED_OBJS)
 complex-led: $(BIN_IMAGE)
@@ -143,4 +150,4 @@ clean:
 flash:
 	st-flash write $(BIN_IMAGE) 0x8000000
 
-.PHONY: clean simple-led complex-led
+.PHONY: clean led-test simple-led complex-led
