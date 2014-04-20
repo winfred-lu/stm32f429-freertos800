@@ -1,0 +1,59 @@
+#+TITLE: README
+#+AUTHOR: Winfred Lu
+#+EMAIL: winfred.lu@gmail.com
+#+STARTUP: content
+
+* Introduction
+  [[http://www.freertos.org/][FreeRTOS]] 8.0.0 porting on [[http://www.st.com/web/catalog/tools/FM116/SC959/SS1532/PF259090][32F429IDISCOVERY]] board using GCC on linux.
+
+  Building the projects requires an arm-none-eabi- toolchain with Cortex-M4F support. The known working toolchains are:
+
+  - Sourcery CodeBench
+  - GNU
+
+* Get FreeRTOS and STM32F429 Discovery Firmware Ready
+  Download and decompress the [[http://sourceforge.net/projects/freertos/postdownloadsource%3Ddlp][FreeRTOS V8.0.0]] from sourceforge.
+  #+BEGIN_EXAMPLE
+    unzip FreeRTOSV8.0.0.zip
+  #+END_EXAMPLE
+
+  Download and decompress the [[http://www.st.com/web/en/catalog/tools/PF259429][STM32F429 discovery firmware package]] from STMicroelectronics website.
+  #+BEGIN_EXAMPLE
+    unzip stsw-stm32138.zip
+  #+END_EXAMPLE
+
+  Clone and build the project.
+  #+BEGIN_EXAMPLE
+    git clone https://github.com/winfred-lu/stm32f429-freertos800
+    cd stm32f429-freertos800
+    make
+  #+END_EXAMPLE
+
+  [[https://github.com/texane/stlink][stlink]] is required to flash the binary to the STM32F429I Discovery board. With stlink in the $PATH, then
+  #+BEGIN_EXAMPLE
+    make flash
+  #+END_EXAMPLE
+
+* Supported Projects
+  Multiple projects are supported:
+
+  1. A loop to toggle LEDs (without OS)
+     #+BEGIN_EXAMPLE
+       make clean
+       make led-test
+     #+END_EXAMPLE
+     No task will be created. An infinite loop to toggle LEDs that never breaks. Try this is a hardware issue or so.
+
+  2. Simple LED flasher example (default)
+     #+BEGIN_EXAMPLE
+       make clean
+       make simple-led
+     #+END_EXAMPLE
+     The LED flash tasks are created. Two of the tasks will toggle the STM32F429I Discovery board LED3 and LED4 in different frequency.
+
+  3. Comprehensive test/demo application
+     #+BEGIN_EXAMPLE
+       make clean
+       make complex-led
+     #+END_EXAMPLE
+     A lot of additional tasks and a software timer are crated.
