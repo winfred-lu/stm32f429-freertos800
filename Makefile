@@ -55,13 +55,20 @@ LDFLAGS += -T stm32f429zi_flash.ld
 # Project source
 CFLAGS += -I.
 SIMPLE_LED_OBJS = \
+    main-led.o \
     port.o \
     ParTest.o \
-    main-led.o \
+    system_stm32f4xx.o
+LCD_OBJS = \
+    main-lcd.o \
+    port.o \
+    ParTest.o \
+    timertest.o \
     system_stm32f4xx.o
 
 # Startup file
 SIMPLE_LED_OBJS += startup_stm32f429_439xx.o
+LCD_OBJS += startup_stm32f429_439xx.o
 
 # CMSIS
 CFLAGS += -I$(STDP)/Libraries/CMSIS/Device/ST/STM32F4xx/Include
@@ -75,9 +82,23 @@ SIMPLE_LED_OBJS += \
     $(STDP)/Libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_exti.o \
     $(STDP)/Libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_gpio.o \
     $(STDP)/Libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_rcc.o
+LCD_OBJS += \
+    $(STDP)/Libraries/STM32F4xx_StdPeriph_Driver/src/misc.o \
+    $(STDP)/Libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_dma2d.o \
+    $(STDP)/Libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_fmc.o \
+    $(STDP)/Libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_gpio.o \
+    $(STDP)/Libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_i2c.o \
+    $(STDP)/Libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_ltdc.o \
+    $(STDP)/Libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_rcc.o \
+    $(STDP)/Libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_spi.o \
+    $(STDP)/Libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_tim.o
 
 # STM32F429I-Discovery Utilities
 CFLAGS += -I$(STDP)/Utilities/STM32F429I-Discovery
+CFLAGS += -I$(STDP)/Utilities/Common
+LCD_OBJS += \
+    $(STDP)/Utilities/STM32F429I-Discovery/stm32f429i_discovery_lcd.o \
+    $(STDP)/Utilities/STM32F429I-Discovery/stm32f429i_discovery_sdram.o
 
 # FreeRTOS
 CFLAGS += -I$(RTOS)/FreeRTOS/Source/include
@@ -89,6 +110,20 @@ SIMPLE_LED_OBJS += \
     $(RTOS)/FreeRTOS/Source/tasks.o \
     $(RTOS)/FreeRTOS/Source/portable/MemMang/heap_1.o \
     $(RTOS)/FreeRTOS/Demo/Common/Minimal/flash.o
+LCD_OBJS += \
+    $(RTOS)/FreeRTOS/Source/list.o \
+    $(RTOS)/FreeRTOS/Source/queue.o \
+    $(RTOS)/FreeRTOS/Source/tasks.o \
+    $(RTOS)/FreeRTOS/Source/timers.o \
+    $(RTOS)/FreeRTOS/Source/portable/MemMang/heap_1.o \
+    $(RTOS)/FreeRTOS/Demo/Common/Minimal/flash.o \
+    $(RTOS)/FreeRTOS/Demo/Common/Minimal/BlockQ.o \
+    $(RTOS)/FreeRTOS/Demo/Common/Minimal/GenQTest.o \
+    $(RTOS)/FreeRTOS/Demo/Common/Minimal/integer.o \
+    $(RTOS)/FreeRTOS/Demo/Common/Minimal/PollQ.o \
+    $(RTOS)/FreeRTOS/Demo/Common/Minimal/QPeek.o \
+    $(RTOS)/FreeRTOS/Demo/Common/Minimal/semtest.o \
+    $(RTOS)/FreeRTOS/Demo/Common/Minimal/recmutex.o
 
 # Extra files needed when mainCREATE_SIMPLE_LED_FLASHER_DEMO_ONLY is defined 0
 COMPLEX_LED_OBJS += \
@@ -123,6 +158,10 @@ complex-led: CFLAGS += -DmainCREATE_SIMPLE_LED_FLASHER_DEMO_ONLY=0
 complex-led: OBJS = $(SIMPLE_LED_OBJS) $(COMPLEX_LED_OBJS)
 complex-led: $(BIN_IMAGE)
 
+lcd: $(LCD_OBJS)
+lcd: OBJS = $(LCD_OBJS)
+lcd: $(BIN_IMAGE)
+
 all: simple-led
 
 $(BIN_IMAGE): $(EXECUTABLE)
@@ -145,7 +184,7 @@ $(EXECUTABLE): $(OBJS)
 clean:
 	rm -f $(EXECUTABLE) $(BIN_IMAGE) $(HEX_IMAGE)
 	rm -f $(PROJECT).lst
-	rm -f $(OBJS) $(SIMPLE_LED_OBJS) $(COMPLEX_LED_OBJS)
+	rm -f $(OBJS) $(SIMPLE_LED_OBJS) $(COMPLEX_LED_OBJS) $(LCD_OBJS)
 
 flash:
 	st-flash write $(BIN_IMAGE) 0x8000000
