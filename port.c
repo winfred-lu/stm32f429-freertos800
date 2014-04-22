@@ -139,10 +139,6 @@ debugger. */
 variable. */
 static UBaseType_t uxCriticalNesting = 0xaaaaaaaa;
 
-/* Variable that counts at 20KHz to provide the time base for the run time
-   stats. */
-unsigned long ulRunTimeStatsClock = 0UL;
-
 /*
  * Setup the timer to generate the tick interrupts.  The implementation in this
  * file is weak to allow application writers to change the timer used to

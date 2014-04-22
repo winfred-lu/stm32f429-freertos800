@@ -269,6 +269,10 @@ static xSemaphoreHandle xTestSemaphore = NULL;
 interrupt. */
 volatile unsigned long ulButtonPressCounts = 0UL;
 
+/* Variable that counts at 20KHz to provide the time base for the run time
+stats. */
+unsigned long ulRunTimeStatsClock = 0UL;
+
 /*-----------------------------------------------------------*/
 
 int main(void)
