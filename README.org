@@ -55,4 +55,13 @@
        make clean
        make complex-led
      #+END_EXAMPLE
-     A lot of additional tasks and a software timer are crated.
+     A lot of additional tasks and a software timer are crated. Please reference comments in main-led.c.
+
+  4. LCD test/demo application
+     #+BEGIN_EXAMPLE
+       make clean
+       make lcd
+     #+END_EXAMPLE
+     In addition to standard demo tasks, the following tasks are created:
+     - LCD task : a gatekeeper task that receives messages from the queue and writes the messages to the LCD.
+     - Check hook : periodically checks that all the demo tasks are still operational, and sends PASS or ERROR messages to the LCD task.
