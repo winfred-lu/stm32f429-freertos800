@@ -275,7 +275,7 @@ int main(void)
 {
 	/* Configure the hardware ready to run the test. */
 	prvSetupHardware();
-#if 0
+#if LED_TESTING
 	while (1)
 	{
 		vParTestToggleLED(LED3);
