@@ -33,6 +33,19 @@
     make flash
   #+END_EXAMPLE
 
+* (option) Download uGFX project
+  This would be only required if you would like to build the uGFX basic or notepad project.
+  #+BEGIN_EXAMPLE
+    git co https://bitbucket.org/Tectu/ugfx.git
+  #+END_EXAMPLE
+
+  Checkout the freertos branch (may be merged to master in the future).
+  #+BEGIN_EXAMPLE
+    git co freertos
+  #+END_EXAMPLE
+
+  Refrence: [[http://ugfx.org/][uGFX home]] and [[http://ugfx.org/forum/index.php][uGFX forum]]
+
 * Supported Projects
   Multiple projects are supported:
 
@@ -65,3 +78,17 @@
      In addition to standard demo tasks, the following tasks are created:
      - LCD task : a gatekeeper task that receives messages from the queue and writes the messages to the LCD.
      - Check hook : periodically checks that all the demo tasks are still operational, and sends PASS or ERROR messages to the LCD task.
+
+  5. basic uGFX application
+     #+BEGIN_EXAMPLE
+       make clean
+       make ugfx-basic
+     #+END_EXAMPLE
+     With LED flash tasks existing, the LCD task draws a yellow box, a blue full rectangle, a red line, and a white dotted curve.
+
+  6. uGFX notepad application
+     #+BEGIN_EXAMPLE
+       make clean
+       make ugfx
+     #+END_EXAMPLE
+     With LED flash tasks existing, the LCD task demostrates notepad application after the LCD calibration. Watch the [[https://www.youtube.com/watchv%3DZP_QPXTheLM][Demo video]].
