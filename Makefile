@@ -4,6 +4,8 @@ EXECUTABLE = $(PROJECT).elf
 BIN_IMAGE = $(PROJECT).bin
 HEX_IMAGE = $(PROJECT).hex
 
+VERBOSE_COMPILE = no
+
 # set the path to STM32F429I-Discovery firmware package
 STDP ?= ../STM32F429I-Discovery_FW_V1.0.1
 
@@ -198,7 +200,8 @@ UGFX_BASIC_OBJS += \
     $(UGFX)/src/gdisp/mcufont/mf_rlefont.o \
     $(UGFX)/src/gevent/gevent.o \
     $(UGFX)/src/gos/freertos.o \
-    $(UGFX)/src/gwin/gwin.o
+    $(UGFX)/src/gwin/gwin.o \
+    $(UGFX)/src/gwin/gwm.o
 UGFX_OBJS += \
     $(UGFX)/src/gfx.o \
     $(UGFX)/src/gdisp/fonts.o \
@@ -214,7 +217,8 @@ UGFX_OBJS += \
     $(UGFX)/src/gos/freertos.o \
     $(UGFX)/src/gtimer/gtimer.o \
     $(UGFX)/src/gwin/console.o \
-    $(UGFX)/src/gwin/gwin.o
+    $(UGFX)/src/gwin/gwin.o \
+    $(UGFX)/src/gwin/gwm.o
 
 # Extra files needed when mainCREATE_SIMPLE_LED_FLASHER_DEMO_ONLY is defined 0
 COMPLEX_LED_OBJS += \
@@ -272,22 +276,42 @@ $(BIN_IMAGE): $(EXECUTABLE)
 	$(SIZE) $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJS)
-	$(LD) -o $@ $(OBJS) \
-		--start-group $(LIBS) --end-group \
-		$(LDFLAGS)
+ifeq ($(VERBOSE_COMPILE),yes)
+	$(LD) -o $@ $(OBJS) --start-group $(LIBS) --end-group $(LDFLAGS)
+else
+	@echo LD $@
+	@$(LD) -o $@ $(OBJS) --start-group $(LIBS) --end-group $(LDFLAGS)
+endif
 
 %.o: %.c
+ifeq ($(VERBOSE_COMPILE),yes)
 	$(CC) $(CFLAGS) -c $< -o $@
+else
+	@echo CC $<
+	@$(CC) $(CFLAGS) -c $< -o $@
+endif
 
 %.o: %.S
+ifeq ($(VERBOSE_COMPILE),yes)
 	$(CC) $(CFLAGS) -c $< -o $@
+else
+	@echo CC $<
+	@$(CC) $(CFLAGS) -c $< -o $@
+endif
 
 clean:
+ifeq ($(VERBOSE_COMPILE),yes)
 	rm -f $(OBJS) $(SIMPLE_LED_OBJS) $(COMPLEX_LED_OBJS) $(LCD_OBJS) $(UGFX_BASIC_OBJS) $(UGFX_OBJS)
 	rm -f $(EXECUTABLE) $(BIN_IMAGE) $(HEX_IMAGE)
 	rm -f $(PROJECT).lst
+else
+	@rm -f $(OBJS) $(SIMPLE_LED_OBJS) $(COMPLEX_LED_OBJS) $(LCD_OBJS) $(UGFX_BASIC_OBJS) $(UGFX_OBJS)
+	@rm -f $(EXECUTABLE) $(BIN_IMAGE) $(HEX_IMAGE)
+	@rm -f $(PROJECT).lst
+	@echo Objects deleted.
+endif
 
 flash:
 	st-flash write $(BIN_IMAGE) 0x8000000
 
-.PHONY: clean led-test simple-led complex-led
+.PHONY: clean led-test simple-led complex-led ugfx-basic ugfx
