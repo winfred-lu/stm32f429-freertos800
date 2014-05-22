@@ -39,11 +39,6 @@
     git co https://bitbucket.org/Tectu/ugfx.git
   #+END_EXAMPLE
 
-  Checkout the freertos branch (may be merged to master in the future).
-  #+BEGIN_EXAMPLE
-    git co freertos
-  #+END_EXAMPLE
-
   Refrence: [[http://ugfx.org/][uGFX home]] and [[http://ugfx.org/forum/index.php][uGFX forum]]
 
 * Supported Projects
