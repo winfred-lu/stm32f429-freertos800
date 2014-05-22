@@ -4,7 +4,7 @@
 #+STARTUP: content
 
 * Introduction
-  [[http://www.freertos.org/][FreeRTOS]] 8.0.0 porting on [[http://www.st.com/web/catalog/tools/FM116/SC959/SS1532/PF259090][32F429IDISCOVERY]] board using GCC on linux.
+  [[http://www.freertos.org/][FreeRTOS]] 8.0.0 porting on [[http://www.st.com/web/catalog/tools/FM116/SC959/SS1532/PF259090][32F429IDISCOVERY]] board using GCC on linux. The demo projects also work with [[https://sourceforge.net/projects/freertos/files/latest/downloadsource%3Dfiles][current FreeRTOS]] (v8.0.1).
 
   Building the projects requires an arm-none-eabi- toolchain with Cortex-M4F support. The known working toolchains are:
   - [[http://www.mentor.com/embedded-software/sourcery-tools/sourcery-codebench/editions/lite-edition/][Sourcery CodeBench]]
